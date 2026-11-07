@@ -1,0 +1,149 @@
+MAIN RESULTS SUMMARY
+Does Extreme Heat Increase Violence Against Women?
+Pipeline run: 2026-11-07 12:25
+Full printouts of every step are in outputs/logs/
+
+================================================================================
+1. DATA CLEANING (01_understanding_livWell.py)
+================================================================================
+Excluding countries with no within-country heat variation: ['BGD', 'EGY', 'GAB', 'GHA', 'BEN']
+Observations before: 758, after: 736
+Countries before: 39, after: 34
+Countries: 34
+Regions: 327
+Years: 18, range: 2000-2019
+
+================================================================================
+2. MODERATOR DATASET (02_making_moderator_dataset.py)
+================================================================================
+Excluding countries with no within-country heat variation: ['BGD', 'EGY', 'GAB', 'GHA', 'BEN']
+number of countries: 34.
+number of regions: 327.
+Years: 18
+
+================================================================================
+3. MAIN ANALYSIS, MODEL 4 (03_analysis2.py)
+   dv ~ heat + rain + C(region_id) + C(year), SEs clustered by region
+================================================================================
+Sample (regions with >= 3 years):
+Regions: 120
+Observations/region-years: 464
+Mean years/region: 3.8666666666666667
+Median years/region: 3.0
+Number of countries: 14
+Countries: CMR, COL, HTI, JOR, KHM, MLI, MWI, NGA, PER, PHL, SEN, UGA, ZMB, ZWE
+
+Main model:
+Heat coefficient: 10.314538761526391 (SE: 2.7872147242949286, p = 0.00021503800596156417)
+R2: 0.8358
+
+Assumption checks:
+Base model AIC: 2723.5225371436723,
+Square model AIC: 2724.06070430192.
+VIF for heat: 1.0351147853180835
+Outlier count: 64
+
+Cluster bootstrap (500 reps, resampling whole regions):
+Mean: 10.4436
+Std (bootstrap SE): 2.4416
+95% CI: [5.8542, 15.0298]
+
+2% trimmed DV:
+Original n: 464
+Trimmed n: 444
+Heat (original): 10.314538761526391
+Heat (trimmed):  8.856016542846012
+
+                  coef    std err          z      P>|z|      [0.025      0.975]
+main model:       heat                      10.3145      2.787      3.701      0.000       4.852      15.777
+trimmed model:    heat                       8.8560      2.681      3.303      0.001       3.602      14.110
+
+================================================================================
+4. ROBUSTNESS: EXCLUDING FLAGGED OUTLIERS (04_robustness_outliers.py)
+================================================================================
+=== MAIN MODEL (n=464) ===
+heat: 10.3145, SE: 2.7872, p: 0.0002
+R2: 0.8358
+
+Flagged outliers: 64 observations (Cook's distance > 0.0086, Hair et al., 1998; |standardised residual| > 3)
+
+=== MODEL EXCLUDING FLAGGED OUTLIERS (n=400) ===
+heat: 9.5981, SE: 2.1809, p: 0.0000
+R2: 0.9367
+95% CI: [5.3237, 13.8725]
+
+================================================================================
+5. ROBUSTNESS: MM-ESTIMATION IN R (05_mmrobustness.R)
+================================================================================
+Rscript not found, step 5 was skipped. Install R and run: make -B step5
+
+================================================================================
+6. MODERATOR ANALYSES, WITHIN REGIONS (06_moderators_within_region.py)
+   dv ~ heat * moderator + rain + C(region_id) + C(year)
+================================================================================
+Heat: 10.3145 (SE: 2.7872, p = 0.0002)
+Interaction terms (heat x moderator):
+overall_empowerment_score      β=  0.1237 SE=  0.2463 p=  0.6155 (n=464, clusters=120)
+EI_women_elec_p                β=  0.0061 SE=  0.0864 p=  0.9441 (n=461, clusters=120)
+DM_age_diff_mean               β= -1.0032 SE=  2.0936 p=  0.6318 (n=458, clusters=120)
+DM_age_diff_abs                β= -1.0032 SE=  2.0936 p=  0.6318 (n=458, clusters=120)
+DM_age_diff_10plus_p           β=  0.3633 SE=  0.3136 p=  0.2466 (n=458, clusters=120)
+WL_wealth_median               β=  0.0597 SE=  0.1365 p=  0.6618 (n=464, clusters=120)
+DM_urban_p                     β=  0.0238 SE=  0.1329 p=  0.8581 (n=464, clusters=120)
+
+mean proportion of violence that is partner violence in the whole dataset:
+1.1658
+
+================================================================================
+9. MODERATOR ANALYSES, WITHIN COUNTRY-SURVEYS (09_moderators_BETWEEN_region.py)
+   dv ~ heat * M_c + rain + C(country_year), SEs clustered by country
+================================================================================
+BASE MODEL, WITHIN COUNTRY-SURVEYS (reference)
+Heat: 2.3133 (SE: 4.0421, p = 0.5671)
+Interaction terms (heat x moderator):
+overall_empowerment_score      β= -0.5940 SE=  0.2706 p=  0.0282 (n=736, clusters=327)
+EI_women_elec_p                β= -0.1044 SE=  0.0867 p=  0.2288 (n=719, clusters=313)
+DM_age_diff_mean               β=  1.2775 SE=  1.1652 p=  0.2729 (n=730, clusters=327)
+WL_wealth_median               β= -0.1525 SE=  0.1308 p=  0.2437 (n=736, clusters=327)
+DM_urban_p                     β= -0.1856 SE=  0.0891 p=  0.0373 (n=736, clusters=327)
+
+BH-CORRECTED P-VALUES (5 tests)
+overall_empowerment_score      p=0.0282  p_BH=0.0932
+EI_women_elec_p                p=0.2288  p_BH=0.2729
+DM_age_diff_mean               p=0.2729  p_BH=0.2729
+WL_wealth_median               p=0.2437  p_BH=0.2729
+DM_urban_p                     p=0.0373  p_BH=0.0932
+
+================================================================================
+11. MAIN ANALYSIS WITHOUT SUB-SAHARAN AFRICA (11_analysis2_without_SSA.py)
+   same as step 3, sub-Saharan African countries left out (Peisker, Hoffmann et al., 2026)
+================================================================================
+Regions: 77
+Observations/region-years: 335
+Number of countries: 6
+Countries: COL, HTI, JOR, KHM, PER, PHL
+
+Heat coefficient: 14.854099594117564 (SE: 3.679077954800391, p = 5.403496211450868e-05)
+
+Cluster bootstrap:
+Mean: 15.4089
+Std (bootstrap SE): 3.6808
+95% CI: [8.0730, 22.8078]
+
+Original n: 335
+Trimmed n: 321
+Heat (original): 14.854099594117564
+Heat (trimmed):  14.400256374137328
+
+================================================================================
+PLOTS SAVED IN outputs/plots/
+================================================================================
+candidates
+country_data_availability_map.png
+dvHist2.jpg
+empowerment_construction.png
+model_figure.png
+qq2.jpg
+residualsVsFitted2.jpg
+results_within_region_heat_effect.png
+within_country_coefplot.png
