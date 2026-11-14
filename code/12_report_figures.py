@@ -145,15 +145,6 @@ moderator_tag(73, 1, 18, 10, darker(orange, 0.4), "empowerment\nspousal age gap"
 ax.text(80, 44.3, "not tested\n(no displacement data)", ha="center", va="bottom", fontsize=8.5,
         color=text_grey, style="italic", linespacing=1.1)
 
-# small legend: mediator vs. moderator
-ax.add_patch(FancyBboxPatch((2, 17), 5, 3.4, boxstyle="round,pad=0,rounding_size=0.6", color=light_grey, zorder=2))
-ax.text(9, 18.7, "Mediator (pathway):\nheat works through it", fontsize=9, va="center", linespacing=1.1)
-arrow(ax, (2, 7), (8, 7))
-ax.add_patch(FancyArrowPatch((5, 12), (5, 7.3), arrowstyle="-|>", mutation_scale=9, color=text_grey,
-                             linewidth=1.3, linestyle=(0, (4, 2.5)), zorder=4))
-ax.scatter([5], [7], s=18, color=text_grey, zorder=5)
-ax.text(9, 8.5, "Moderator: changes how\nstrong a link is", fontsize=9, va="center", linespacing=1.1)
-
 add_titles(fig, "How heat could lead to violence against women",
            "The pathways carry the effect (mediators); the moderators tested here could make it stronger or weaker")
 add_note(fig, "Pathways after Pearson et al. (2026); examples from the Possible Mechanisms section. "
@@ -504,3 +495,4 @@ add_note(fig, "Heat effect implied by the moderator model (country-survey fixed 
 fig.savefig(f"{save_plots_here}/moderator_interactions.png", dpi=300)
 plt.close(fig)
 print("saved: moderator_interactions.png")
+
